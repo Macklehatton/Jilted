@@ -66,10 +66,10 @@ public class PlayerMain : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		baseLockTime = 5.5F;
-		baseRepairTime = 10.0F;
-		baseSpeed = 5.0F;
-		baseJumpHeight = 2.0F;
+		baseLockTime = 4.0f;
+		baseRepairTime = 10.0f;
+		baseSpeed = 5.0f;
+		baseJumpHeight = 2.0f;
 
 
 	}

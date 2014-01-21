@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RangedAttackTest : MonoBehaviour {
+public class RangedAttack : MonoBehaviour {
 
 	public ForwardInteraction interact;
 	public float weaponRange;
@@ -12,8 +12,12 @@ public class RangedAttackTest : MonoBehaviour {
 	public AudioSource weaponSound;
 
 	void Awake () {		
+		weaponCooldown = 0.5f;
 		timeSinceFire = weaponCooldown;
 		interact = GetComponent<ForwardInteraction>();
+		weaponRange = 1000.0f;
+		fireAngle = 30.0f;
+
 	}
 
 	void Update () {

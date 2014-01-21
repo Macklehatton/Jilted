@@ -20,9 +20,9 @@ public class ActivateGenerator : MonoBehaviour {
 	
 	void Awake () {
 		interact = GetComponent<ForwardInteraction>();
-		activationRange = 5.0F;
-		activationAngle = 30.0F;
-		cooldownTime = 0.5F;
+		activationRange = 5.0f;
+		activationAngle = 30.0f;
+		cooldownTime = 0.5f;
 		useTimer = cooldownTime;
 		showBrokenMessage = false;		
 		repairSoundPlaying = false;		
