@@ -33,14 +33,12 @@ public class Generator : MonoBehaviour {
 	}
 
 	public void run () {
-		Debug.Log ("Run generator");
 		running = true;
 		startupSound.Play ();
 		doorSwitch.powered = true;
 	}
 
 	public void stop () {
-		Debug.Log ("Stop generator");
 		stopSound.Play();
 		running = false;
 	}

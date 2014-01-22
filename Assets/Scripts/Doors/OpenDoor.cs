@@ -20,7 +20,6 @@ public class OpenDoor : MonoBehaviour {
 	public bool playPickingSound = false;
 
 	void Awake () {
-
 		openRange = 4.0f;
 		openAngle = 30.0f;
 		cooldownTime = 0.5f;
@@ -57,8 +56,7 @@ public class OpenDoor : MonoBehaviour {
 
 	void open () {
 		Door door = interact.getTarget (useTimer, cooldownTime, "Door", openRange, openAngle) as Door;
-		Debug.Log (door);
-		if (door != null) {
+		if (door != null) { 
 			if (door.opened == false) {
 				if (door.locked == false) {
 					door.open ();
@@ -74,16 +72,19 @@ public class OpenDoor : MonoBehaviour {
 	}
 
 	void pickLock (Door door) {
-		timeSpent += Time.deltaTime;
-		if (door.locked = true) {
-			if (playPickingSound == false) {
-				playPickingSound = true;
-				door.pickingSound.Play ();
-			} 
-			if (timeSpent >= lockpickTimer) {
-				door.unlockSound.Play ();
-				door.locked = false;
-				stopPicking();
+		if (door != null) { //This double check gets rid of a null reference
+			timeSpent += Time.deltaTime;
+			if (door.locked = true) {
+				if (playPickingSound == false) {
+					playPickingSound = true;
+					door.pickingSound.Play ();
+				} 
+				if (timeSpent >= lockpickTimer) {
+					door.unlockSound.Play ();
+					door.locked = false;
+					showMessage = false;
+					stopPicking();
+				}
 			}
 		}
 	}

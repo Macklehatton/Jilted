@@ -24,22 +24,6 @@ public class Door : MonoBehaviour {
 
 	void Awake () {
 		lockedMessage = "Locked";
-
-
-	}
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
-
-	void OnGUI() {
-
 	}
 
 	public void open () {
