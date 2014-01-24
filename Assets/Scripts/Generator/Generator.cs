@@ -3,16 +3,21 @@ using System.Collections;
 
 public class Generator : MonoBehaviour {
 
-	public bool hasFuel = true;
+	public bool needFuel = false;
 	public bool broken = false;
 	public bool running = false;
 
 	public AudioSource startupSound;
 	public AudioSource runningSound;
 	public AudioSource stopSound;
+
 	public AudioSource brokenSound;
 	public AudioSource repairSound;
 	public AudioSource fixedSound;
+
+	public AudioSource drySound;
+	public AudioSource fuelingSound;
+	public AudioSource filledSound;
 
 	public string brokenMessage;
 	public float repairDC;
@@ -29,13 +34,19 @@ public class Generator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (running == true) {
+			if (startupSound.isPlaying == false) {
+				if (runningSound.isPlaying == false) {
+					runningSound.Play();			
+				}
+			}
+		}
 	}
 
 	public void run () {
-		running = true;
 		startupSound.Play ();
 		doorSwitch.powered = true;
+		running = true;
 	}
 
 	public void stop () {

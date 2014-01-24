@@ -33,7 +33,6 @@ public class CharacterControls : MonoBehaviour {
 			velocityChange.y = 0;
 			rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
 			
-			// Jump
 			if (canJump && Input.GetButton("Jump")) {
 				rigidbody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
 			}

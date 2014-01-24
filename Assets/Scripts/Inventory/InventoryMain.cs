@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
+using System.Linq;
 
 public class InventoryMain : MonoBehaviour {
 
@@ -11,6 +11,10 @@ public class InventoryMain : MonoBehaviour {
 	public ForwardInteraction interact;
 	public Dictionary<int, Item> items = new Dictionary<int, Item>();
 
+	public int itemStacks = 0;
+	public int displayHeight = 0;
+
+	public string[] itemsList;
 
 	void Awake () {
 		interact = GetComponent<ForwardInteraction>();
@@ -19,11 +23,19 @@ public class InventoryMain : MonoBehaviour {
 
 		Item fuel = new Item(0, "Fuel can", "A metal jerrycan of fuel, 20 liters", 20000.0F, 20.0F);
 		items.Add(fuel.ID, fuel);
+
+		itemsList = items.Values.Select(k => k.name).ToArray();
 	}
 
-	void Update() {
+	void Update () {
 		if (Input.GetButtonDown("Activate")) {
 			pickUp();
+		}
+	}
+
+	void OnGUI () {	
+		if (itemStacks > 0) {
+			GUI.SelectionGrid(new Rect(25, 25, 140, 50), itemStacks, itemsList, 2);
 		}
 	}
 
@@ -48,20 +60,12 @@ public class InventoryMain : MonoBehaviour {
 		}		
 	}
 
-	public void pickUp() {
+	public void pickUp () {
 		WorldItem itemOnGround = interact.getTarget(1, 0, "WorldItem", pickUpRange, pickUpAngle) as WorldItem;
 		if (itemOnGround != null) {
 			items[itemOnGround.ID].carried += 1;
 			Destroy(itemOnGround.gameObject);
+			itemStacks += 1;
 		}
-	}
-	
-	
-
-	//Item list
-
-
-
-
-	
+	}	
 }
