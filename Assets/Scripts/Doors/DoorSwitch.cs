@@ -5,14 +5,12 @@ public class DoorSwitch : MonoBehaviour {
 
 	public GameObject player;
 	public GameObject door;
-
 	public float activateDistance;
 	public float moveTimer;
-
 	public AudioSource button;
 	public AudioSource bigDoor;
-
 	public bool powered = true;
+	public bool enabled = true;
 
 	bool open;
 	bool activate;
@@ -20,6 +18,7 @@ public class DoorSwitch : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		activate = false;
+		player = GameObject.Find ("Graphics");
 
 	}
 	
@@ -34,11 +33,13 @@ public class DoorSwitch : MonoBehaviour {
 				}
 
 				if (powered == true){
-					activate = true;
+					if (enabled == true) {
+						activate = true;
 
-					if (open == false) {
-						if (bigDoor.isPlaying == false) {
-							bigDoor.Play();
+						if (open == false) {
+							if (bigDoor.isPlaying == false) {
+								bigDoor.Play();
+							}
 						}
 					}
 				}

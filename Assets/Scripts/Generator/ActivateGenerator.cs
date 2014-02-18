@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Checks for a generator in front of the player on key press, handles repairing and refueling, activation.
+/// </summary>
+
 public class ActivateGenerator : MonoBehaviour {
 	
 	public PlayerMain playerMain;
@@ -42,7 +46,7 @@ public class ActivateGenerator : MonoBehaviour {
 	void Start () {
 		repairTimer = playerMain.baseRepairTime - (playerMain.coordination / 2);
 		interact = GetComponent<ForwardInteraction>();
-		inventory = GetComponent<InventoryMain>();
+		inventory = transform.FindChild("Camera").GetComponent<InventoryMain>();
 	}
 	
 	void Update () {

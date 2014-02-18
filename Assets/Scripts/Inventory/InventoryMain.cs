@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
+/// <summary>
+/// This mess is how we add items to the players inventory.
+/// </summary>
+
 public class InventoryMain : MonoBehaviour {
 
 	public float pickUpRange;
@@ -17,12 +21,16 @@ public class InventoryMain : MonoBehaviour {
 	public string[] itemsList;
 
 	void Awake () {
-		interact = GetComponent<ForwardInteraction>();
-		pickUpRange = 5.0f;
+		interact = transform.parent.GetComponent<ForwardInteraction>();
+		pickUpRange = 2.0f;
 		pickUpAngle = 30.0f;
 
-		Item fuel = new Item(0, "Fuel can", "A metal jerrycan of fuel, 20 liters", 20000.0F, 20.0F);
+		Item fuel = new Item(0, "Fuel can", "A metal jerrycan of fuel, 20 liters", 20.0f, 20000.0f);
 		items.Add(fuel.ID, fuel);
+		Item crowbar = new Item(1, "Crowbar", "A metal crowbar", 0.72f ,360.0f);
+		items.Add(crowbar.ID, crowbar);
+		Item m1911 = new Item(2, "M1911", "A M1911 pistol", 0.72f ,360.0f);
+		items.Add(m1911.ID, m1911);
 
 		itemsList = items.Values.Select(k => k.name).ToArray();
 	}
@@ -60,12 +68,18 @@ public class InventoryMain : MonoBehaviour {
 		}		
 	}
 
-	public void pickUp () {
+	void pickUp () {
 		WorldItem itemOnGround = interact.getTarget(1, 0, "WorldItem", pickUpRange, pickUpAngle) as WorldItem;
 		if (itemOnGround != null) {
 			items[itemOnGround.ID].carried += 1;
 			Destroy(itemOnGround.gameObject);
 			itemStacks += 1;
 		}
-	}	
+	}
+
+	void sortItemList () {
+		foreach (string entity in itemsList) {
+
+		}
+	}
 }

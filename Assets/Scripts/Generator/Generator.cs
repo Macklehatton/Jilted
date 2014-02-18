@@ -26,6 +26,8 @@ public class Generator : MonoBehaviour {
 
 	public DoorSwitch doorSwitch;
 
+	public bool lightsOn = false;
+
 
 	void Awake () {
 		brokenMessage = "Broken";
@@ -40,7 +42,10 @@ public class Generator : MonoBehaviour {
 					runningSound.Play();			
 				}
 			}
+			switchLights();
 		}
+
+
 	}
 
 	public void run () {
@@ -52,5 +57,17 @@ public class Generator : MonoBehaviour {
 	public void stop () {
 		stopSound.Play();
 		running = false;
+	}
+
+	void switchLights () {
+		if (running == true) {
+			if (lightsOn == false) {
+				Component[] lights = GameObject.Find("Tunnels").GetComponentsInChildren<Light>();
+				foreach (Light tunnelLight in lights) {
+					tunnelLight.intensity = 1;
+					lightsOn = true;
+				}
+			}
+		}
 	}
 }
