@@ -9,11 +9,14 @@ public class DoorSwitch : MonoBehaviour {
 	public float moveTimer;
 	public AudioSource button;
 	public AudioSource bigDoor;
+	public AudioSource stuckSound;
 	public bool powered = true;
 	public bool enabled = true;
+	public bool stuck = false;
 
 	bool open;
 	bool activate;
+	
 
 	// Use this for initialization
 	void Awake () {
@@ -42,6 +45,10 @@ public class DoorSwitch : MonoBehaviour {
 							}
 						}
 					}
+				}
+
+				if (stuck == true) {
+					stuckSound.Play();
 				}
 			}
 		}

@@ -13,7 +13,7 @@ public class JammedDoor : MonoBehaviour {
 		if (open == true) {
 			moveTimer -= Time.deltaTime;
 			if (moveTimer > 0) {
-				transform.Translate(Vector3.back * 10 * Time.deltaTime);
+				transform.Translate(Vector3.back * Time.deltaTime);
 				if (openSound.isPlaying == false) {
 					openSound.Play ();
 				}
