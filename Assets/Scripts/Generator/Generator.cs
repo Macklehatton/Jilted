@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Generator : MonoBehaviour {
 
-	public bool needFuel = false;
-	public bool broken = false;
-	public bool running = false;
+	public bool needFuel;
+	public bool broken;
+	public bool running;
 
 	public AudioSource startupSound;
 	public AudioSource runningSound;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 [RequireComponent (typeof (Rigidbody))]
 [RequireComponent (typeof (CapsuleCollider))]
@@ -17,8 +18,10 @@ public class CharacterControls : MonoBehaviour {
 	public AudioSource footstep1;
 	public AudioSource footstep2;
 	public AudioSource footstep3;
+	public AudioSource footstep4;
 	List<AudioSource> footsteps = new List<AudioSource>();
-	public float speed = 2.0f;
+	List<AudioSource> stepsNoRepeat = new List<AudioSource>();
+	public float speed = 1.5f;
 	public float gravity = 10.0f;
 	public float maxVelocityChange = 1.0f;
 	public bool canJump = true;
@@ -29,6 +32,9 @@ public class CharacterControls : MonoBehaviour {
 	bool prone = false;
 	bool footstepsPlaying = false;
 	public float footstepDelay;
+	float timeSinceStep;
+	int soundToPlay = 0;
+	int lastPlayed = 0;
 
 
 	void Awake () {
@@ -38,7 +44,7 @@ public class CharacterControls : MonoBehaviour {
 		footsteps.Add(footstep1);
 		footsteps.Add(footstep2);
 		footsteps.Add(footstep3);
-		
+		footsteps.Add(footstep4);		
 	}
 
 	void FixedUpdate () {
@@ -80,11 +86,11 @@ public class CharacterControls : MonoBehaviour {
 
 			if (Input.GetButton("Crouch")) {
 				speed = 2.0f;
-				transform.localScale = new Vector3(1,0.5f,1);
+				transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 				crouching = true;
 			} else {
 				speed = 3.0f;
-				transform.localScale = new Vector3(1,1,1);
+				transform.localScale = new Vector3(0.5f, 0.7f, 0.5f);
 				crouching = false;
 			}
 
@@ -94,7 +100,7 @@ public class CharacterControls : MonoBehaviour {
 
 			if (prone == true) {
 				speed = 1.0f;
-				transform.localScale = new Vector3(1,0.25f,1);
+				transform.localScale = new Vector3(0.5f, 0.25f, 0.5f);
 			}
 
 		}
@@ -108,24 +114,27 @@ public class CharacterControls : MonoBehaviour {
 	void Update() {
 		// Footsteps
 		if (Input.GetAxis("Vertical") > 0.1 && transform.position != lastPosition) {
-			if (footstepsPlaying == false) {
-				footsteps[Random.Range(0,2)].Play();
-				footstepsPlaying = true;
-				Debug.Log ("Step");
-			}
-			
-			if (footstepsPlaying == true) {
-				footstepDelay -= Time.deltaTime;
-				Debug.Log ("Playing step");
-			}
-			
-			if (footstepDelay <= 0) {
-				if (footstep1.isPlaying == false && footstep2.isPlaying == false && footstep3.isPlaying == false) {
+			if (footstepsPlaying == false) {				
+				soundToPlay = Random.Range(0,3);
+				if (soundToPlay != lastPlayed) {
+					lastPlayed = soundToPlay;
+					footsteps[soundToPlay].Play();
+					footstepsPlaying = true;
+					timeSinceStep = 0;
+				} else {
+					soundToPlay = Random.Range(0,3);
+				}
+			}			
+			if (timeSinceStep >= footstepDelay) {
+				if (   footstep1.isPlaying == false
+				    && footstep2.isPlaying == false 
+				    && footstep3.isPlaying == false
+				    && footstep4.isPlaying == false) {
 					footstepsPlaying = false;
 				}
-				Debug.Log("Not playing");
 			}
 		}
+		timeSinceStep += Time.deltaTime;
 	}
 
 

@@ -31,10 +31,12 @@ public class ActivateGenerator : MonoBehaviour {
 	public float timeFueling;
 	public bool playFuelingSound = false;
 
+	public Generator lastActivated;
+
 
 	void Awake () {
 		canRun = true;
-		activationRange = 4.0f;
+		activationRange = 2.5f;
 		activationAngle = 30.0f;
 		cooldownTime = 0.5f;
 		useTimer = cooldownTime;
@@ -50,12 +52,12 @@ public class ActivateGenerator : MonoBehaviour {
 	}
 	
 	void Update () {
+
 		useTimer += Time.deltaTime;
 		if (Input.GetButtonDown ("Activate")) {
 			activate ();
 		}
 		if (brokenGenerator != null) {
-			distanceCheck (brokenGenerator);
 			if (Input.GetButton ("Activate")) {
 				repair (brokenGenerator);
 			} else {
@@ -63,12 +65,15 @@ public class ActivateGenerator : MonoBehaviour {
 			}		
 		}
 		if (dryGenerator != null) {
-			distanceCheck (dryGenerator);
 			if (Input.GetButton ("Activate")) {
 				refuel (dryGenerator);
 			} else {
 				stopFueling ();
 			}		
+		}
+
+		if (lastActivated != null) {
+			distanceCheck (dryGenerator);
 		}
 	}
 	
@@ -86,6 +91,7 @@ public class ActivateGenerator : MonoBehaviour {
 	
 	void activate () {
 		Generator generator = interact.getTarget (useTimer, cooldownTime, "Generator", activationRange, activationAngle) as Generator;
+		lastActivated = generator;
 		if (generator != null) {
 			canRunCheck (generator);
 			if (canRun == true) {
@@ -162,26 +168,32 @@ public class ActivateGenerator : MonoBehaviour {
 	}
 	
 	void distanceCheck (Generator generator) {
-		if (Vector3.Distance (generator.transform.position, transform.position) > activationRange) {
-			stopRepairing ();
+		Debug.Log(Vector3.Distance (lastActivated.transform.position, transform.position));
+		if (Vector3.Distance (lastActivated.transform.position, transform.position) > activationRange) {			
 			showBroken = false;
-			stopFueling ();
 			showNeedFuel = false;
+			stopRepairing ();
+			stopFueling ();
+			lastActivated = null;
 		}
 	}
 	
 	void stopRepairing () {
-		brokenGenerator.repairSound.Stop ();
-		playRepairSound = false;
-		timeRepairing = 0.0f;
-		brokenGenerator = null;
+		if (brokenGenerator != null) {
+			brokenGenerator.repairSound.Stop ();
+			playRepairSound = false;
+			timeRepairing = 0.0f;
+			brokenGenerator = null;
+		}
 	}
 
 	void stopFueling () {
-		dryGenerator.fuelingSound.Stop ();
-		playFuelingSound = false;
-		timeFueling = 0.0f;
-		dryGenerator = null;
+		if (dryGenerator != null) {
+			dryGenerator.fuelingSound.Stop ();
+			playFuelingSound = false;
+			timeFueling = 0.0f;
+			dryGenerator = null;				
+		}
 	}
 
 	

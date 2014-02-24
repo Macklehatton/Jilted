@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class PlayerMain : MonoBehaviour {
 
-
 	public CharacterControls characterControls;
 
 	// Flags

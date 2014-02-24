@@ -56,7 +56,7 @@ public class Searchable : MonoBehaviour {
 
 	void OnGUI () {
 		if (displayItems == true) {
-			selected = GUI.SelectionGrid(new Rect(25, 25, 140, 50), itemsFound.Count, itemsFound.ToArray(), itemsFound.Count);
+			selected = GUI.SelectionGrid(new Rect(25, 150, 140, 50), itemsFound.Count, itemsFound.ToArray(), itemsFound.Count);
 		}		
 	}
 
